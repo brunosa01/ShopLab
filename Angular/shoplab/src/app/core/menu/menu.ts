@@ -2,7 +2,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { CartService } from '@services/cart'; 
+import { CartService } from '../../service/cart';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
   standalone: true,
   imports: [CommonModule, RouterLink, RouterOutlet],
   templateUrl: './menu.html',
-  styleUrl: './menu.scss'
+  styleUrls: ['./menu.scss']
 })
 export class MenuComponent {
   private cartService = inject(CartService);
