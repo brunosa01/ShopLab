@@ -6,8 +6,9 @@
     <a class="text-white p-2 hover:bg-purple-700 rounded-lg" routerLink="/">Início</a>
     <a class="text-white p-2 hover:bg-purple-700 rounded-lg" routerLink="/produtos">Produtos</a>
     
-    <a class="text-white p-2 hover:bg-purple-700 rounded-lg relative" routerLink="/carrinho">
-      Carrinho
+    <a class="text-white p-2 hover:bg-purple-700 rounded-lg relative flex items-center" routerLink="/carrinho">
+  
+      <i class="las la-shopping-cart text-2xl mr-1"></i>
       
       <ng-container *ngIf="cartItemCount$ | async as count">
         <span *ngIf="count > 0" class="absolute -top-1 -right-1 bg-red-500 text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-indigo-700">
