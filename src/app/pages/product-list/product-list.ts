@@ -37,15 +37,15 @@ export class ProductListComponent {
       { id: 103, title: 'Tailwind CSS Rápido', author: 'Desenvolvedores ShopLab', price: 39.90, image: 'tailwind-cover.png', description: 'Aprenda a estilizar seu e-commerce em minutos, sem escrever CSS complexo.' },
       { id: 104, title: 'Bases de TypeScript', author: 'Prof. Exemplo', price: 59.90, image: 'typescript-cover.png', description: 'Fundamentos essenciais para qualquer desenvolvedor Front-end.' },
   ];
+  toastService: any;
 
   trackByProductId(index: number, product: Ebook): number {
         return product.id;
     }
 
   onAddToCart(ebook: Ebook) {
-      this.cartService.addToCart(ebook); // Passa o objeto do ebook
-      console.log(`E-book "${ebook.title}" adicionado.`);
-      // O alert agora será chamado via handleProductAdded para evitar duplicidade
+      this.cartService.addToCart(ebook); 
+      this.toastService.showToast(ebook, 1); // NOVO: Dispara a notificação
     }
 
   // Novo método para ABRIR a tela de detalhes
@@ -59,9 +59,10 @@ export class ProductListComponent {
         for (let i = 0; i < data.quantity; i++) {
             this.cartService.addToCart(data.product); 
         }
-
-        alert(`${data.quantity}x de "${data.product.title}" adicionado ao carrinho!`);
-        this.selectedProduct = null; // Fecha a tela de detalhes após a compra
+        
+        // NOVO: Dispara a notificação após a compra detalhada
+        this.toastService.showToast(data.product, data.quantity); 
+        this.selectedProduct = null;
     }
 
   handleCloseDetails() {
@@ -72,4 +73,5 @@ export class ProductListComponent {
   trackById(index: number, product: Ebook): number {
     return product.id;
   }
+  
 }

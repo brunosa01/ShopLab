@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MenuComponent } from './core/menu/menu'; // <- Adicionado import
 
+
 @Component({
   selector: 'app-root',
   standalone: true, 
