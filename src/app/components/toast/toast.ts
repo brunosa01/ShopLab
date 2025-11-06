@@ -11,8 +11,8 @@ import { Ebook } from '../../Types/ebook';
   selector: 'app-toast',
   standalone: true,
   imports: [CommonModule, RouterLink],
-  templateUrl: './toast.component.html',
-  styleUrls: ['./toast.component.scss']
+  templateUrl: './toast.html',
+  styleUrls: ['./toast.scss']
 })
 export class ToastComponent implements OnInit, OnDestroy {
   private toastService = inject(ToastService);

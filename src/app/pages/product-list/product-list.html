@@ -1,37 +1,77 @@
 <main class="container mx-auto py-12 px-4">
+    
+    <div *ngIf="!selectedProduct" class="bg-indigo-50 p-6 rounded-xl shadow-lg mb-10">
+        <h3 class="text-2xl font-bold text-indigo-800 mb-4 border-b border-indigo-200 pb-2">Incluir Novo E-book (Admin)</h3>
+        
+        <form [formGroup]="addProductForm" (ngSubmit)="addNewProduct()" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+            
+            <div>
+                <label for="title" class="block text-sm font-medium text-gray-700">Título</label>
+                <input id="title" type="text" formControlName="title" class="w-full border border-gray-300 rounded-md p-2">
+                <div *ngIf="addProductForm.get('title')?.invalid && addProductForm.get('title')?.touched" class="text-red-500 text-xs mt-1">
+                    Título é obrigatório (min 5).
+                </div>
+            </div>
+
+            <div>
+                <label for="author" class="block text-sm font-medium text-gray-700">Autor</label>
+                <input id="author" type="text" formControlName="author" class="w-full border border-gray-300 rounded-md p-2">
+                <div *ngIf="addProductForm.get('author')?.invalid && addProductForm.get('author')?.touched" class="text-red-500 text-xs mt-1">
+                    Autor é obrigatório.
+                </div>
+            </div>
+
+            <div>
+                <label for="price" class="block text-sm font-medium text-gray-700">Preço (R$)</label>
+                <input id="price" type="number" formControlName="price" class="w-full border border-gray-300 rounded-md p-2">
+                <div *ngIf="addProductForm.get('price')?.invalid && addProductForm.get('price')?.touched" class="text-red-500 text-xs mt-1">
+                    Preço deve ser positivo.
+                </div>
+            </div>
+
+            <button type="submit" [disabled]="addProductForm.invalid" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 disabled:opacity-50">
+                Incluir Produto
+            </button>
+        </form>
+    </div>
 
     <app-product-details 
         *ngIf="selectedProduct" 
-        [product]="selectedProduct"                           
-        (productAdded)="handleProductAdded($event)"
-        (closeDetails)="handleCloseDetails()">          
+        [product]="selectedProduct"                          
+        (productAdded)="handleProductAdded($event)"         
+        (closeDetails)="handleCloseDetails()">  
     </app-product-details>
 
     <ng-container *ngIf="!selectedProduct">
-        <h2 class="text-4xl font-bold text-gray-800 text-center mb-10 border-b pb-4">Nossa Coleção de E-books</h2>
+        <h2 class="text-4xl font-bold text-gray-800 text-center mb-10 border-b pb-4">Catálogo de E-books</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             
-            @for (product of products; track product.id) { 
-            <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col transition duration-300 hover:shadow-xl hover:scale-[1.02]">
-                
-                <div class="w-full h-48 bg-gray-200 rounded-lg mb-4 flex items-center justify-center text-gray-500 font-semibold border border-dashed border-gray-400">
-                    Capa: {{ product.title }}
-                </div>
-                
-                <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ product.title }}</h3>
-                <p class="text-sm text-gray-600 mb-3 line-clamp-2">{{ product.description }}</p>
+            @for (product of products; track product.id) {
+                <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col transition duration-300 hover:shadow-xl hover:scale-[1.02] relative">
+                    
+                    <button 
+                        (click)="removeProduct(product.id)" 
+                        class="absolute top-2 right-2 text-red-500 hover:text-red-700 p-1 rounded-full bg-white/70 transition duration-150"
+                        title="Excluir produto do catálogo">
+                        <i class="las la-times text-2xl"></i>
+                    </button>
 
-                <p class="mt-auto text-2xl font-bold text-indigo-600 mb-4">R$ {{ product.price.toFixed(2) }}</p>
-                
-                <button 
-                    (click)="showDetails(product)"
-                    class="w-full bg-indigo-500 hover:bg-indigo-600 text-white py-2 rounded-lg font-medium transition duration-300 transform hover:scale-[1.01]">
-                    Ver Detalhes
-                </button>
-            </div>
-            } @empty {
-                <p class="text-gray-500 col-span-4 text-center">Nenhum e-book encontrado na coleção.</p>
+                    <div class="w-full h-48 bg-gray-200 rounded-lg mb-4 flex items-center justify-center text-gray-500 font-semibold border border-dashed border-gray-400">
+                        Capa: {{ product.title }}
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ product.title }}</h3>
+                    <p class="text-sm text-gray-600 mb-3 line-clamp-2">{{ product.description }}</p>
+
+                    <p class="mt-auto text-2xl font-bold text-indigo-600 mb-4">R$ {{ product.price.toFixed(2) }}</p>
+                    
+                    <button 
+                        (click)="showDetails(product)"
+                        class="w-full bg-indigo-500 hover:bg-indigo-600 text-white py-2 rounded-lg font-medium transition duration-300 transform hover:scale-[1.01]">
+                        Ver Detalhes
+                    </button>
+                </div>
             }
             
         </div>
