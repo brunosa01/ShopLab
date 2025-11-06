@@ -18,10 +18,10 @@
         @for (ebook of featuredEbooks; track ebook.id) {
             <div class="bg-white rounded-xl shadow-2xl overflow-hidden p-6 flex flex-col items-center text-center transition duration-300 hover:shadow-indigo-400/50">
                 
-                <div class="w-2/3 h-64 bg-gray-200 rounded-lg mb-4 flex items-center justify-center text-gray-500 font-semibold border border-dashed border-gray-400">
-                    Capa: {{ ebook.title }}
+                <div class="w-2/3 h-64 rounded-lg mb-4 flex items-center justify-center">
+                    <img [src]="'/' + ebook.image" [alt]="'Capa do e-book: ' + ebook.title" class="max-h-full max-w-full object-contain">
                 </div>
-
+                <nav></nav>
                 <h4 class="text-xl font-semibold text-gray-900 mb-1">{{ ebook.title }}</h4>
                 <p class="text-sm text-gray-600 mb-3">Por {{ ebook.author }}</p>
 
