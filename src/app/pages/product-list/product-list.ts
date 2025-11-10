@@ -6,38 +6,34 @@ import { RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; // NOVO: Forms Reativos
 import { CartService } from '../../service/cart'; 
 import { Ebook } from '../../Types/ebook'; 
+import { ProductService } from '../../service/product'; // <-- ADICIONADO: importar ProductService
 import { ProductDetailsComponent, ProductQuantity } from '../product-details/product-details';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
   // ReactiveFormsModule é obrigatório aqui
-  imports: [CommonModule, RouterLink, ProductDetailsComponent, ReactiveFormsModule], 
+  imports: [CommonModule, ProductDetailsComponent, ReactiveFormsModule], 
   templateUrl: './product-list.html',
   styleUrls: ['./product-list.scss']
 })
 export class ProductListComponent implements OnInit {
-handleCloseDetails() {
-throw new Error('Method not implemented.');
-} 
+    // Injeções
     private cartService = inject(CartService);
-    private fb = inject(FormBuilder); 
+    private fb = inject(FormBuilder);
+    private productService = inject(ProductService); // <-- INJEÇÃO
 
     // ESTADO
     selectedProduct: Ebook | null = null; 
     addProductForm!: FormGroup; 
-    nextId: number = 105; 
     
-    // LISTA DE PRODUTOS
-    products: Ebook[] = [
-        // O caminho é relativo à pasta raiz de assets (public/)
-        { id: 101, title: 'Dominando o Angular', author: 'Equipe ShopLab', price: 49.90, image: 'angular-cover.png', description: 'Guia completo para criar projetos sólidos com a mais nova versão do Angular.' },
-        { id: 102, title: '10 Dicas de Produtividade', author: 'Time de Estudos', price: 29.90, image: 'produtividade-cover.png', description: 'Métodos testados para otimizar seu tempo e aumentar o foco nos estudos.' },
-        { id: 103, title: 'Tailwind CSS Rápido', author: 'Desenvolvedores ShopLab', price: 39.90, image: 'tailwind-cover.png', description: 'Aprenda a estilizar seu e-commerce em minutos, sem escrever CSS complexo.' },
-        { id: 104, title: 'Bases de TypeScript', author: 'Prof. Exemplo', price: 59.90, image: 'typescript-cover.png', description: 'Fundamentos essenciais para qualquer desenvolvedor Front-end.' },
-    ];
+    // LISTA DE PRODUTOS AGORA É UM OBSERVABLE
+    products$!: Observable<Ebook[]>; // <-- MUDA PARA OBSERVABLE
 
     ngOnInit(): void {
+      this.loadProducts(); // Carrega os dados ao inicializar
+      
       this.addProductForm = this.fb.group({
         title: ['', [Validators.required, Validators.minLength(5)]],
         author: ['', [Validators.required]],
@@ -45,7 +41,14 @@ throw new Error('Method not implemented.');
       });
     }
 
-    // MÉTODOS DE ADMINISTRAÇÃO DE CATÁLOGO
+    // NOVO MÉTODO: Carrega a lista de produtos da API (READ)
+    loadProducts() {
+      this.products$ = this.productService.getProducts();
+    }
+
+
+    // MÉTODOS DE ADMINISTRAÇÃO DE CATÁLOGO (CREATE e DELETE)
+
     addNewProduct() {
       if (this.addProductForm.invalid) {
         this.addProductForm.markAllAsTouched();
@@ -53,24 +56,27 @@ throw new Error('Method not implemented.');
         return;
       }
       
-      const newProduct: Ebook = {
-        id: this.nextId++,
-        title: this.addProductForm.value.title,
-        author: this.addProductForm.value.author,
-        price: this.addProductForm.value.price,
-        description: 'Descrição padrão de um novo e-book adicionado pelo administrador.',
-        image: 'novo-ebook.png'
-      };
-
-      this.products.unshift(newProduct); 
-      this.addProductForm.reset({ price: 0 }); 
-      alert(`Novo E-book "${newProduct.title}" incluído no catálogo!`);
+      const newProductData = this.addProductForm.value;
+      
+      this.productService.addProduct(newProductData).subscribe({
+        next: () => {
+          this.addProductForm.reset({ price: 0 }); // Limpa o formulário
+          this.loadProducts(); // Recarrega a lista para mostrar o novo item (Importante para o READ)
+          alert(`Novo E-book "${newProductData.title}" incluído na API!`);
+        },
+        error: (err) => console.error('Erro ao adicionar produto:', err)
+      });
     }
 
     removeProduct(productId: number) {
       if (confirm('Tem certeza que deseja excluir este produto do catálogo?')) {
-        this.products = this.products.filter(p => p.id !== productId);
-        alert('Produto removido do catálogo!');
+        this.productService.deleteProduct(productId).subscribe({
+            next: () => {
+                this.loadProducts(); // Recarrega a lista após a exclusão
+                alert('Produto removido da API!');
+            },
+            error: (err) => console.error('Erro ao excluir produto:', err)
+        });
       }
     }
 
@@ -86,5 +92,15 @@ throw new Error('Method not implemented.');
         }
         alert(`${data.quantity}x de "${data.product.title}" adicionado ao carrinho!`);
         this.selectedProduct = null;
+    }
+
+    // Fecha a visualização de detalhes
+    handleCloseDetails() {
+      this.selectedProduct = null;
+    }
+
+    // trackBy para otimizar ngFor
+    trackById(_: number, item: Ebook) {
+      return (item as any).id;
     }
 }

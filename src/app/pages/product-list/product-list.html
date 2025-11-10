@@ -46,33 +46,22 @@
         <h2 class="text-4xl font-bold text-gray-800 text-center mb-10 border-b pb-4">Catálogo de E-books</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            
-            @for (product of products; track product.id) {
-                <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col transition duration-300 hover:shadow-xl hover:scale-[1.02] relative">
-                    
-                    <button 
-                        (click)="removeProduct(product.id)" 
-                        class="absolute top-2 right-2 text-red-500 hover:text-red-700 p-1 rounded-full bg-white/70 transition duration-150"
-                        title="Excluir produto do catálogo">
-                        <i class="las la-times text-2xl"></i>
-                    </button>
 
-                        <div class="w-full h-48 rounded-lg mb-4 flex items-center justify-center">
-                            <img [src]="'/' + product.image" [alt]="'Capa do e-book: ' + product.title" class="max-h-full max-w-full object-contain">
-                        </div>
-                    
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ product.title }}</h3>
-                    <p class="text-sm text-gray-600 mb-3 line-clamp-2">{{ product.description }}</p>
+            <div *ngFor="let product of products$ | async; trackBy: trackById" class="bg-white rounded-xl shadow-lg p-6 flex flex-col transition duration-300 hover:shadow-xl hover:scale-[1.02] relative">
+                
+                <button 
+                    (click)="removeProduct(product.id)" 
+                    class="absolute top-2 right-2 text-red-500 hover:text-red-700 p-1 rounded-full bg-white/70 transition duration-150"
+                    title="Excluir produto do catálogo">
+                    <i class="las la-times text-2xl"></i>
+                </button>
 
-                    <p class="mt-auto text-2xl font-bold text-indigo-600 mb-4">R$ {{ product.price.toFixed(2) }}</p>
-                    
-                    <button 
-                        (click)="showDetails(product)"
-                        class="w-full bg-indigo-500 hover:bg-indigo-600 text-white py-2 rounded-lg font-medium transition duration-300 transform hover:scale-[1.01]">
-                        Ver Detalhes
-                    </button>
-                </div>
-            }
+                <button 
+                    (click)="showDetails(product)"
+                    class="w-full bg-indigo-500 hover:bg-indigo-600 text-white py-2 rounded-lg font-medium transition duration-300 transform hover:scale-[1.01]">
+                    Ver Detalhes
+                </button>
+            </div>
             
         </div>
     </ng-container>

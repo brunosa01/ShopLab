@@ -1,0 +1,36 @@
+{
+  "products": [
+    {
+      "id": "101",
+      "title": "Dominando o Angular",
+      "author": "Equipe ShopLab",
+      "price": 49.9,
+      "image": "angular-cover.png",
+      "description": "Guia completo para criar projetos sólidos com a mais nova versão do Angular."
+    },
+    {
+      "id": "102",
+      "title": "10 Dicas de Produtividade",
+      "author": "Time de Estudos",
+      "price": 29.9,
+      "image": "produtividade-cover.png",
+      "description": "Métodos testados para otimizar seu tempo e aumentar o foco nos estudos."
+    },
+    {
+      "id": "103",
+      "title": "Tailwind CSS Rápido",
+      "author": "Desenvolvedores ShopLab",
+      "price": 39.9,
+      "image": "tailwind-cover.png",
+      "description": "Aprenda a estilizar seu e-commerce em minutos, sem escrever CSS complexo."
+    },
+    {
+      "id": "104",
+      "title": "Bases de TypeScript",
+      "author": "Prof. Exemplo",
+      "price": 59.9,
+      "image": "typescript-cover.png",
+      "description": "Fundamentos essenciais para qualquer desenvolvedor Front-end."
+    }
+  ]
+}
