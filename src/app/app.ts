@@ -1,13 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MenuComponent } from './core/menu/menu';
-import { ToastComponent } from "./components/toast/toast"; // <- Adicionado import
+import { ToastComponent } from "./components/toast/toast"; 
 
 
 @Component({
   selector: 'app-root',
   standalone: true, 
-  imports: [RouterOutlet, MenuComponent, ToastComponent], // <- Adicionado MenuComponent
+  imports: [RouterOutlet, MenuComponent, ToastComponent], 
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

@@ -1,10 +1,13 @@
 // src/app/pages/home/home.ts
 
-import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router'; // Para o botão Hero
-import { CommonModule } from '@angular/common'; // Para usar @for
-import { CartService } from '../../service/cart'; // Para adicionar ao carrinho
-import { Ebook } from '../../Types/ebook'; // Tipo de Produto
+import { Component, inject, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common'; 
+import { CartService } from '../../service/cart'; 
+import { ProductService } from '../../service/product'; // <-- NOVO: Service para a API
+import { ToastService } from '../../service/toast'; // <-- NOVO: Service para notificação
+import { Ebook } from '../../Types/ebook'; 
+import { Observable, map } from 'rxjs'; // <-- Importar 'map' para manipulação do array
 
 @Component({
   selector: 'app-home',
@@ -13,24 +16,27 @@ import { Ebook } from '../../Types/ebook'; // Tipo de Produto
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })
-export class HomeComponent { 
+export class HomeComponent implements OnInit {
+    // Injeções
     private cartService = inject(CartService);
+    private productService = inject(ProductService); 
+    private toastService = inject(ToastService); // <-- INJETADO PARA O BOTÃO
 
-    // E-books para a seção de Destaques da Home
-    featuredEbooks: Ebook[] = [
-        // O caminho é relativo à pasta raiz de assets (public/)
-        { id: 201, title: 'Dominando o Angular', author: 'Equipe ShopLab', price: 49.90, image: 'angular-cover.png', description: 'Guia completo para criar projetos sólidos com a mais nova versão do Angular.' },
-        { id: 202, title: '10 Dicas de Produtividade', author: 'Time de Estudos', price: 29.90, image: 'produtividade-cover.png', description: 'Métodos testados para otimizar seu tempo e aumentar o foco nos estudos.' },
-        { id: 203, title: 'Tailwind CSS Rápido', author: 'Desenvolvedores ShopLab', price: 39.90, image: 'tailwind-cover.png', description: 'Aprenda a estilizar seu e-commerce em minutos, sem escrever CSS complexo.' },
-    ];
+    // A lista de produtos em destaque agora é um Observable
+    featuredEbooks$!: Observable<Ebook[]>;
+    
+    ngOnInit(): void {
+        // Busca todos os produtos da API e usa o operador 'map' para pegar apenas os 3 primeiros
+        this.featuredEbooks$ = this.productService.getProducts().pipe(
+            map(products => products.slice(0, 3))
+        );
+    }
     
     /**
-     * Adiciona o item rapidamente ao carrinho (usado nos cards de destaque)
+     * Adiciona o item rapidamente ao carrinho e dispara o Toast.
      */
     onAddToCart(ebook: Ebook) {
         this.cartService.addToCart(ebook);
-        alert(`"${ebook.title}" adicionado ao carrinho!`);
+        this.toastService.showToast(ebook, 1); // <-- CHAMA O TOAST (Substitui o antigo alert)
     }
-
-    
 }

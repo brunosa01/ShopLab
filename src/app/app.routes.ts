@@ -17,7 +17,7 @@ export const routes: Routes = [
     title: 'ShopLab | E-books'
   },
   {
-    path: 'carrinho', // ROTA FINAL DO CARRINHO
+    path: 'carrinho', 
     component: CartComponent, 
     title: 'ShopLab | Carrinho'
   },

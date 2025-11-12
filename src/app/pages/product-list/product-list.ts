@@ -1,19 +1,18 @@
-// src/app/pages/product-list/product-list.ts
+
 
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
 import { RouterLink } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; // NOVO: Forms Reativos
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; 
 import { CartService } from '../../service/cart'; 
 import { Ebook } from '../../Types/ebook'; 
-import { ProductService } from '../../service/product'; // <-- ADICIONADO: importar ProductService
+import { ProductService } from '../../service/product'; 
 import { ProductDetailsComponent, ProductQuantity } from '../product-details/product-details';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  // ReactiveFormsModule é obrigatório aqui
   imports: [CommonModule, ProductDetailsComponent, ReactiveFormsModule], 
   templateUrl: './product-list.html',
   styleUrls: ['./product-list.scss']
@@ -22,14 +21,14 @@ export class ProductListComponent implements OnInit {
     // Injeções
     private cartService = inject(CartService);
     private fb = inject(FormBuilder);
-    private productService = inject(ProductService); // <-- INJEÇÃO
+    private productService = inject(ProductService);
 
     // ESTADO
     selectedProduct: Ebook | null = null; 
     addProductForm!: FormGroup; 
     
     // LISTA DE PRODUTOS AGORA É UM OBSERVABLE
-    products$!: Observable<Ebook[]>; // <-- MUDA PARA OBSERVABLE
+    products$!: Observable<Ebook[]>; 
 
     ngOnInit(): void {
       this.loadProducts(); // Carrega os dados ao inicializar

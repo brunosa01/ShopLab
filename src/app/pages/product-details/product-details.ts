@@ -1,10 +1,10 @@
-// src/app/pages/product-details/product-details.ts
+
 
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Ebook } from '../../Types/ebook'; 
 import { RouterLink } from '@angular/router';
-import { FormsModule } from '@angular/forms'; // <-- NOVO: Necessário para usar ngModel
+import { FormsModule } from '@angular/forms'; 
 
 // Definimos uma interface para o evento de saída
 export interface ProductQuantity {
@@ -15,7 +15,6 @@ export interface ProductQuantity {
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  // Adicionar FormsModule para two-way binding da quantidade
   imports: [CommonModule, FormsModule], 
   templateUrl: './product-details.html',
   styleUrls: ['./product-details.scss']

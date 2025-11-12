@@ -1,9 +1,8 @@
-// src/app/pages/cart/cart.ts
+
 
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-// NOVOS IMPORTS para Formulários Reativos
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; 
 import { CartService, CartItem } from '../../service/cart'; 
 import { Observable, map } from 'rxjs';
@@ -11,7 +10,6 @@ import { Observable, map } from 'rxjs';
 @Component({
   selector: 'app-cart',
   standalone: true,
-  // ReactiveFormsModule é obrigatório
   imports: [CommonModule, RouterLink, ReactiveFormsModule], 
   templateUrl: './cart.html',
   styleUrls: ['./cart.scss']
@@ -20,11 +18,11 @@ export class CartComponent implements OnInit {
   // Injeções
   private cartService = inject(CartService);
   private router = inject(Router);
-  private fb = inject(FormBuilder); // <-- Injete o FormBuilder
+  private fb = inject(FormBuilder); 
 
   // Propriedades de Estado
   showCheckoutForm: boolean = false;
-  checkoutForm!: FormGroup; // Declaração do FormGroup
+  checkoutForm!: FormGroup; 
 
   // Observables do Carrinho
   cartItems$: Observable<CartItem[]> = this.cartService.cartItems$;
