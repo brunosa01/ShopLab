@@ -1,16 +1,17 @@
 
 
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; 
 import { CartService, CartItem } from '../../service/cart'; 
 import { Observable, map } from 'rxjs';
+import { HighlightAuthorPipe } from '../../Pipes/highlight-author.pipe';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule], 
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, CurrencyPipe, HighlightAuthorPipe], 
   templateUrl: './cart.html',
   styleUrls: ['./cart.scss']
 })

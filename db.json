@@ -23,14 +23,6 @@
       "price": 39.9,
       "image": "tailwind-cover.png",
       "description": "Aprenda a estilizar seu e-commerce em minutos, sem escrever CSS complexo."
-    },
-    {
-      "id": "104",
-      "title": "Bases de TypeScript",
-      "author": "Prof. Exemplo",
-      "price": 59.9,
-      "image": "typescript-cover.png",
-      "description": "Fundamentos essenciais para qualquer desenvolvedor Front-end."
     }
   ]
 }

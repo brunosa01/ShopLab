@@ -16,8 +16,12 @@
             
             <div class="flex-grow">
               <h3 class="text-lg font-semibold text-gray-900">{{ item.title }}</h3>
-              <p class="text-sm text-gray-600">Preço Unitário: R$ {{ item.price.toFixed(2) }}</p>
-              <p class="text-sm font-bold text-indigo-600">Total: R$ {{ (item.price * item.quantity).toFixed(2) }}</p>
+              
+              <p [class]="item.author | highlightAuthor" class="text-sm mb-1">Por: {{ item.author }}</p>
+              
+              <p class="text-sm text-gray-600">Preço Unitário: {{ item.price | currency:'BRL':'symbol':'1.2-2' }}</p>
+              
+              <p class="text-sm font-bold text-indigo-600">Total: {{ (item.price * item.quantity) | currency:'BRL':'symbol':'1.2-2' }}</p>
             </div>
 
             <div class="flex items-center space-x-4">
@@ -45,40 +49,6 @@
         <form [formGroup]="checkoutForm" (ngSubmit)="onCheckout()" class="bg-white p-6 shadow-xl rounded-lg space-y-6">
           <h3 class="text-xl font-bold text-gray-800 border-b pb-3 mb-4">Informações de Envio e Pagamento</h3>
 
-          <div>
-            <label for="name" class="block text-sm font-medium text-gray-700">Nome Completo</label>
-            <input id="name" type="text" formControlName="name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
-            <div *ngIf="checkoutForm.get('name')?.invalid && (checkoutForm.get('name')?.dirty || checkoutForm.get('name')?.touched)" class="text-red-500 text-sm mt-1">
-              <span *ngIf="checkoutForm.get('name')?.errors?.['required']">Nome é obrigatório.</span>
-              <span *ngIf="checkoutForm.get('name')?.errors?.['minlength']">Nome deve ter no mínimo 3 caracteres.</span>
-            </div>
-          </div>
-
-          <div>
-            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-            <input id="email" type="email" formControlName="email" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
-            <div *ngIf="checkoutForm.get('email')?.invalid && (checkoutForm.get('email')?.dirty || checkoutForm.get('email')?.touched)" class="text-red-500 text-sm mt-1">
-              <span *ngIf="checkoutForm.get('email')?.errors?.['required']">Email é obrigatório.</span>
-              <span *ngIf="checkoutForm.get('email')?.errors?.['email']">Email inválido.</span>
-            </div>
-          </div>
-          
-          <div>
-            <label for="address" class="block text-sm font-medium text-gray-700">Endereço de Cobrança (Fictício)</label>
-            <input id="address" type="text" formControlName="address" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
-            <div *ngIf="checkoutForm.get('address')?.invalid && (checkoutForm.get('address')?.dirty || checkoutForm.get('address')?.touched)" class="text-red-500 text-sm mt-1">
-              <span>Endereço é obrigatório.</span>
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Método de Pagamento</label>
-            <select formControlName="paymentMethod" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
-              <option value="pix">PIX (Mais Rápido)</option>
-              <option value="credit">Cartão de Crédito (Simulado)</option>
-            </select>
-            </div>
-
           <div class="flex justify-between items-center pt-4">
             <button type="button" (click)="showCheckoutForm = false" class="text-indigo-600 hover:text-indigo-800">
                 ← Voltar ao Carrinho
@@ -98,7 +68,7 @@
         
         <div class="flex justify-between text-lg font-semibold mb-6">
           <span>Total a Pagar:</span>
-          <span class="text-indigo-600">R$ {{ subtotal$ | async | number:'1.2-2' }}</span>
+          <span class="text-indigo-600">{{ subtotal$ | async | currency:'BRL':'symbol':'1.2-2' }}</span>
         </div>
         
         <button 

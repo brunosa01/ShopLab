@@ -1,18 +1,19 @@
-// src/app/pages/home/home.ts
+
 
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common'; 
 import { CartService } from '../../service/cart'; 
-import { ProductService } from '../../service/product'; // <-- NOVO: Service para a API
-import { ToastService } from '../../service/toast'; // <-- NOVO: Service para notificação
+import { ProductService } from '../../service/product'; 
+import { ToastService } from '../../service/toast'; 
 import { Ebook } from '../../Types/ebook'; 
-import { Observable, map } from 'rxjs'; // <-- Importar 'map' para manipulação do array
+import { Observable, map } from 'rxjs';
+import { HighlightAuthorPipe } from '../../Pipes/highlight-author.pipe';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, CommonModule], 
+  imports: [RouterLink, CommonModule, HighlightAuthorPipe], 
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })

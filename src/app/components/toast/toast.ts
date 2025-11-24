@@ -1,16 +1,16 @@
-// src/app/components/toast/toast.component.ts
 
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ToastService } from '../../service/toast';
 import { Ebook } from '../../Types/ebook';
+import { HighlightAuthorPipe } from '../../Pipes/highlight-author.pipe';
 
 @Component({
   selector: 'app-toast',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, HighlightAuthorPipe, CurrencyPipe],
   templateUrl: './toast.html',
   styleUrls: ['./toast.scss']
 })
