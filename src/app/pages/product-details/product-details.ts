@@ -17,7 +17,7 @@ export interface ProductQuantity {
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, CurrencyPipe, HighlightAuthorPipe], 
+  imports: [CommonModule, FormsModule, CurrencyPipe, HighlightAuthorPipe], 
   templateUrl: './product-details.html',
   styleUrls: ['./product-details.scss']
 })
