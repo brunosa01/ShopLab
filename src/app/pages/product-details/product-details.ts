@@ -1,11 +1,12 @@
 
 
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common'; 
 import { Ebook } from '../../Types/ebook'; 
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms'; 
 import { HighlightAuthorPipe } from '../../Pipes/highlight-author.pipe'; 
+import { ToastService } from 'app/service/toast';
 
 // Definimos uma interface para o evento de saída
 export interface ProductQuantity {
@@ -21,6 +22,8 @@ export interface ProductQuantity {
   styleUrls: ['./product-details.scss']
 })
 export class ProductDetailsComponent {
+  // Injeção do ToastService
+  private toastService = inject(ToastService);
   
   @Input() product!: Ebook; 
   
@@ -34,6 +37,9 @@ export class ProductDetailsComponent {
       product: this.product,
       quantity: this.quantity
     });
+    
+    // SUBSTITUÍDO O ALERT() PELO TOAST
+    this.toastService.showToast(this.product, this.quantity);
   }
 
   goBackToList() {
